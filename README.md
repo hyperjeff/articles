@@ -5,7 +5,7 @@ Just a handy, low-maintenance tool to search thru articles by title, authors or 
 
 Some much more thoughtful, explanatory stuff should go here, with screenshots.
 
-Very rough state. First things needed:
+Very rough state. Next things to fix:
 * A single place to set the root directory for the articles
 * An install script
 
