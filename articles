@@ -8,7 +8,7 @@ fileCounter = 1
 
 # It would be great to be able to sort this all by year -- possible?
 
-if len( sys.argv )==1 or len( sys.argv )>5:
+if len( sys.argv )==1 or 5 < len(sys.argv):
 	print "\n\
 Usage: articles -y (year) [year] (-a)\n\
        articles (search terms) (-a)\n\
@@ -59,67 +59,66 @@ def showResults(term):
 	for r in result.strip().split( "\n" ):
 		if r not in shown:
 			parts = r.split( '/' )
-			if len( parts )>1:
+			if 1 < len(parts):
 				file.write( r + "\n" )
-			if byYear and len( parts )>1 and not any:
+			if byYear and 1 < len(parts) and not any:
 				if (year2!=year1):
 					print "\n" + colorize( str(year), colors[1] ) + ":\n"
 				else:
 					print colorize( '', colors[1] )
 				any = True
 			
-			if fileCounter>50:
+			if 50 < fileCounter:
 				line = str( fileCounter ) + ' '
 			else:
-				if fileCounter<21:
+				if fileCounter < 21:
 					labelCode = 9311
-				elif fileCounter<35:
+				elif fileCounter < 35:
 					labelCode = 12860
-				elif fileCounter<51:
+				elif fileCounter < 51:
 					labelCode = 12941
 			
 				line = unichr( labelCode + fileCounter ).encode('utf-8')
-				if fileCounter<21:
+				if fileCounter < 21:
 					line += ' '
 			
 			i = 0
 			for p in parts:
-				if len( p )>1:
-					if i>0:
+				if 1 < len(p):
+					if 0 < i:
 						line += ' ' + colorize( '▶', colors[4] )
 					line += ' '
-					if i==len( parts )-1 and parts[0]!='arXiv':
+					if i == len( parts )-1 and parts[0]!='arXiv':
 						ps = p.split(' ')[0].split('-')
-						if (len(ps)>1):
+						if (1 < len(ps)):
 							if ps[0].isdigit() and ps[1].isdigit():
 								span = int(ps[1])-int(ps[0])+1
-								if span>1:
+								if 1 < span:
 									line += ' ('
-									if (span<10):
+									if (span < 10):
 										line += ' '
 									line += str(span)+')'
 						#elif ps[0].isdigit():
 						#	line += ' ( 1)'
 						
-						if ps[0].isdigit() and int(ps[0])>0:
+						if ps[0].isdigit() and 0 < int(ps[0]):
 							p = string.join( p.split(' ')[1:], ' ' )
 							pre = ' ' * (2-int(math.log(float(ps[0]),10))) + ps[0]
-							if len(ps)>1 and ps[1].isdigit():
+							if 1 < len(ps) and ps[1].isdigit():
 								pre += '-' + (' ' * (2-int(math.log(float(ps[1]),10)))) + ps[1]
 							else:
 								pre += '    '
-							if len(pre)>1:
+							if 1 < len(pre):
 								p = pre + ' ' + p
 						
 					line += ' ' + colorize( p, colors[i] )
 					#if not (parts[0]=='arXiv' and i==2):
 					i += 1
-			if len( line )>5:
+			if 5 < len(line):
 				print line
 				fileCounter += 1
 			
 			shown.append( r )
-
 
 
 if byYear:
