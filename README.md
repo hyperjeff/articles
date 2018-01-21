@@ -5,10 +5,13 @@ Just a handy, low-maintenance tool to search thru articles by title, authors or 
 
 Some much more thoughtful, explanatory stuff should go here, with screenshots.
 
+In the meantime, check out this blog article on it here: http://blog.hyperjeff.net/?p=178
+
+
 Very rough state. Next things to fix:
+* An install script / makefile
 * A single place to set the root directory for the articles
-* An install script
-* Screenshots here
+* Add screenshots in Readme
 * Nice full explanation including file and folder naming conventions.
 
 -Jeff
