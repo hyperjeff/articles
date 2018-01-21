@@ -8,5 +8,7 @@ Some much more thoughtful, explanatory stuff should go here, with screenshots.
 Very rough state. Next things to fix:
 * A single place to set the root directory for the articles
 * An install script
+* Screenshots here
+* Nice full explanation including file and folder naming conventions.
 
 -Jeff
