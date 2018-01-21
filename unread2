@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# to clean up files with option-spaces:
+# find . -name '* *' -print0 | xargs -0 rename 's/ / /g'
+
+if [ "$#" -eq 0 ]
+then
+	echo "Usage: unread2 (year)"
+	echo "   Ex: for i in {1920..1929} do unread $i done"
+	exit 1
+else
+	year="'*$1*'"
+	dir="/Users/jeff/Reading/Journals"
+	escdir="\/Users\/jeff\/Reading\/Journals\/"
+	#echo "mdfind \"kMDItemKind=='Folder' && kMDItemDisplayName=$year\" -onlyin $dir"
+	files=`mdfind "kMDItemKind=='Folder' && kMDItemDisplayName=$year" -onlyin $dir -0 | xargs -0 ls | sed 's/ /@/g' | grep pdf`
+	for filex in $files
+	do
+		#echo '---------------------------'
+		#echo $filex
+		file=`echo $filex | sed 's/@/ /g'`
+		fullpath=`find $dir -name "$file"` # | sed "s/$file//"
+		#echo $fullpath
+		thisdir=`echo $fullpath | sed "s/$file//" | grep -v '/ /Users/jeff'`
+		#echo $thisdir
+		#mdfind "kMDItemFSFinderFlags!=18" -onlyin "$thisdir" | sed "s/$escdir//"
+		#mdfind "kMDItemFSLabel==0" -onlyin "$thisdir" | sed "s/$escdir//"
+		if [ "$#" -eq 1 ]
+		then
+			#echo "ok"
+			#echo "mdfind -literal 'kMDItemFSLabel<1' -onlyin \"$thisdir\" | sed \"s/$escdir//\""
+			mdfind -literal 'kMDItemFSLabel==0' -onlyin "$thisdir" | sed "s/$escdir//"
+		else
+			echo $thisdir/$filex | sed "s/$escdir//" | sed 's/@/ /g' | sed 's/\/\//\//'
+		fi
+	done
+fi

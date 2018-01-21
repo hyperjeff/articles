@@ -1,0 +1,134 @@
+#!/usr/bin/python
+# coding: utf-8
+import sys, os, math, string
+
+referenceFile = os.getenv("HOME") + '/.unread'
+file = open( referenceFile, 'w' )
+fileCounter = 1
+
+# It would be great to be able to sort this all by year -- possible?
+
+if len( sys.argv )==1 or len( sys.argv )>5:
+	print "\n\
+Usage: articles -y (year) [year] (-a)\n\
+       articles (search terms) (-a)\n\
+	   \n\
+By default only shows unread articles, use -a flag to see them all.\n\
+Related: article markArticle\n"
+	sys.exit( 1 )
+
+terms = sys.argv[1:]
+
+flagDictionary = {
+	'a' : 'allPapers',
+	'y' : 'byYear',
+}
+
+for key in flagDictionary:
+	value = flagDictionary[key]
+	flag = '-'+key
+	vars()[value] = flag in terms
+	if vars()[value]:
+		terms.remove(flag)
+
+def colorize( message, color ):
+	return "\033[0;" + str( color ) + "m" + message + "\033[0;37m"
+
+colors = [ 95, 92, 93, 99, 96,96,96,96,96,96,96 ]
+
+if byYear:
+	year1 = int( terms[0] )
+	if len( terms )==2:
+		year2 = int( terms[1] )
+	else:
+		year2 = year1
+
+shown = []
+
+def showResults(term):
+	global fileCounter
+	any = False
+	extra = ''
+	if allPapers:
+		extra = ' allPapers'
+	if byYear:
+		fin,fout = os.popen4( 'unread2 ' + term + extra + ' | sort -u' )
+	else:
+		fin,fout = os.popen4( 'unreadBy2 "' + term + '"' + extra + ' | sort -u' )
+	result = fout.read()
+	for r in result.strip().split( "\n" ):
+		if r not in shown:
+			parts = r.split( '/' )
+			if len( parts )>1:
+				file.write( r + "\n" )
+			if byYear and len( parts )>1 and not any:
+				if (year2!=year1):
+					print "\n" + colorize( str(year), colors[1] ) + ":\n"
+				else:
+					print colorize( '', colors[1] )
+				any = True
+			
+			if fileCounter>50:
+				line = str( fileCounter ) + ' '
+			else:
+				if fileCounter<21:
+					labelCode = 9311
+				elif fileCounter<35:
+					labelCode = 12860
+				elif fileCounter<51:
+					labelCode = 12941
+			
+				line = unichr( labelCode + fileCounter ).encode('utf-8')
+				if fileCounter<21:
+					line += ' '
+			
+			i = 0
+			for p in parts:
+				if len( p )>1:
+					if i>0:
+						line += ' ' + colorize( '▶', colors[4] )
+					line += ' '
+					if i==len( parts )-1 and parts[0]!='arXiv':
+						ps = p.split(' ')[0].split('-')
+						if (len(ps)>1):
+							if ps[0].isdigit() and ps[1].isdigit():
+								span = int(ps[1])-int(ps[0])+1
+								if span>1:
+									line += ' ('
+									if (span<10):
+										line += ' '
+									line += str(span)+')'
+						#elif ps[0].isdigit():
+						#	line += ' ( 1)'
+						
+						if ps[0].isdigit() and int(ps[0])>0:
+							p = string.join( p.split(' ')[1:], ' ' )
+							pre = ' ' * (2-int(math.log(float(ps[0]),10))) + ps[0]
+							if len(ps)>1 and ps[1].isdigit():
+								pre += '-' + (' ' * (2-int(math.log(float(ps[1]),10)))) + ps[1]
+							else:
+								pre += '    '
+							if len(pre)>1:
+								p = pre + ' ' + p
+						
+					line += ' ' + colorize( p, colors[i] )
+					#if not (parts[0]=='arXiv' and i==2):
+					i += 1
+			if len( line )>5:
+				print line
+				fileCounter += 1
+			
+			shown.append( r )
+
+
+
+if byYear:
+	for year in range(year1,year2+1):
+		showResults(str(year))
+else:
+	print colorize( '', colors[1] )
+	showResults(string.join(terms,' '))
+
+print
+
+file.close()

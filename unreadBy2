@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# to clean up files with option-spaces:
+# find . -name '* *' -print0 | xargs -0 rename 's/ / /g'
+
+if [ "$#" -eq 0 ]
+then
+	echo "Usage: unreadBy2 (search terms)"
+	exit 1
+else
+	dir="/Users/jeff/Reading/Journals"
+	escdir="\/Users\/jeff\/Reading\/Journals\/"
+	terms="'*$1*'c" # the extra c is for case-insensitivity
+	files=`mdfind "kMDItemFSName==$terms kMDItemKind=='*PDF*'" -onlyin $dir -0 | xargs -0 ls | sed 's/ /@/g'`
+	for filex in $files
+	do
+		file=`echo $filex | sed 's/@/ /g'`
+		fullpath=`find $dir -name "$file"`
+		thisdir=`echo $file | sed "s/[^\/]*$//" | grep -v '/ /Users/jeff'`
+		if [ "$#" -eq 1 ]
+		then
+			mdfind -literal 'kMDItemFSLabel==0' -onlyin "$thisdir" | grep "$file" | sed "s/$escdir//"
+		else
+			echo $file | sed "s/$escdir//"
+		fi
+	done
+fi

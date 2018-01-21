@@ -1,0 +1,21 @@
+#!/usr/bin/python
+import sys, os, subprocess
+
+base = "/Users/jeff/Reading/Journals/"
+unreadFile = os.getenv("HOME") + '/.unread'
+
+if len( sys.argv )<2:
+	print "\n\
+Usage: article (number)\n\
+Opens article listed in last call to the 'unread' command\n\
+Related: unread markArticle\n"
+	sys.exit( 1 )
+
+for arg in sys.argv[1:]:
+	i = int( arg )
+	if i>0:
+		file = open( unreadFile, 'r' )
+		lines = file.readlines()
+		fullpath = base + lines[i-1].strip().replace('"', r'\"')
+		subprocess.call( 'open "' + fullpath + '"', shell=True )
+		file.close()

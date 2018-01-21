@@ -1,0 +1,22 @@
+#!/usr/bin/python
+import sys, os, subprocess
+
+base = "/Users/jeff/Reading/Journals/"
+unreadFile = os.getenv("HOME") + '/.unread'
+
+if len( sys.argv )<2 or int( sys.argv[1] )<1:
+	print "\n\
+Usage: markArticle (number)\n\
+Marks the article listed in last call by giving it a grey Finder label\n\
+Related: article unread\n"
+	sys.exit( 1 )
+
+for j in range( 1, len( sys.argv ) ):
+	i = int( sys.argv[j] )
+	file = open( unreadFile, 'r' )
+	lines = file.readlines()
+	fullpath = base + lines[i-1].strip()
+	command = 'osascript -e "tell application \\"Finder\\" to set label index of alias POSIX file \\"' + fullpath + '\\" to 7" >& /dev/null'
+	print command
+	subprocess.call( command, shell=True )
+	file.close()
