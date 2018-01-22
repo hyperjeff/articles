@@ -16,7 +16,7 @@ Type this in at the command line, from the directory containing this project.
 * mkdir -p ~/.config/articles
 * echo "/path/to/your/articles" > ~/.config/articles/article_base
 * chmod +x articles unread* openarticle markArticle
-* cp articles unread* openarticle markArticle /usr/local/bin
+* cp articles unread* openarticle markArticle /usr/local/bin/
 
 
 ### Next Steps
