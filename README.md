@@ -11,7 +11,7 @@ In the meantime, check out this blog article on it here: http://blog.hyperjeff.n
 
 Type this in at the command line, from the directory containing this project.
 
-(note: change "/usr/local/bin" to wherever you keep such execatuble scripts. In my case, it's ~/bin)
+(note: change "/usr/local/bin" to wherever you keep such executable scripts. In my case, it's ~/bin)
 
 * mkdir -p ~/.config/articles
 * echo "/path/to/your/articles" > ~/.config/articles/article_base
