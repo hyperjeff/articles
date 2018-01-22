@@ -25,5 +25,6 @@ Very rough state. Next things to fix:
 * An install script / makefile
 * Add screenshots in Readme
 * Nice full explanation including file and folder naming conventions.
+* Better naming of scripts, and perhaps some unifying and refactoring
 
 -Jeff
