@@ -5,7 +5,7 @@ Just a handy, low-maintenance tool to search thru articles by title, authors or 
 
 Some much more thoughtful, explanatory stuff should go here, with screenshots.
 
-In the meantime, check out this blog article on it here: http://blog.hyperjeff.net/?p=178
+In the meantime, check out this blog article from 2013 on it here: http://blog.hyperjeff.net/?p=178 (Note: the name of the scripts have changed since that article.)
 
 ## Installation
 
