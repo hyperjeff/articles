@@ -10,8 +10,9 @@ then
 	exit 1
 else
 	year="'*$1*'"
-	dir="/Users/jeff/Reading/Journals"
-	escdir="\/Users\/jeff\/Reading\/Journals\/"
+	baseconfig="$HOME/.config/articles/articles_base"
+	dir=`cat $baseconfig`
+	escdir=`echo "$dir/" | sed -e 's/\//\\\\\//g'`
 	#echo "mdfind \"kMDItemKind=='Folder' && kMDItemDisplayName=$year\" -onlyin $dir"
 	files=`mdfind "kMDItemKind=='Folder' && kMDItemDisplayName=$year" -onlyin $dir -0 | xargs -0 ls | sed 's/ /@/g' | grep pdf`
 	for filex in $files

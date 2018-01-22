@@ -8,8 +8,9 @@ then
 	echo "Usage: unreadBy2 (search terms)"
 	exit 1
 else
-	dir="/Users/jeff/Reading/Journals"
-	escdir="\/Users\/jeff\/Reading\/Journals\/"
+	baseconfig="$HOME/.config/articles/articles_base"
+	dir=`cat $baseconfig`
+	escdir=`echo "$dir/" | sed -e 's/\//\\\\\//g'`
 	terms="'*$1*'c" # the extra c is for case-insensitivity
 	files=`mdfind "kMDItemFSName==$terms kMDItemKind=='*PDF*'" -onlyin $dir -0 | xargs -0 ls | sed 's/ /@/g'`
 	for filex in $files

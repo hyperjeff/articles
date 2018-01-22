@@ -7,10 +7,19 @@ Some much more thoughtful, explanatory stuff should go here, with screenshots.
 
 In the meantime, check out this blog article on it here: http://blog.hyperjeff.net/?p=178
 
+## Installation
+
+Type this in at the command line: (note: change "/usr/local/bin" to wherever you keep such execatuble scripts. In my case, it's ~/bin)
+* mkdir -p ~/.config/articles
+* echo "/path/to/your/articles" > ~/.config/articles/article_base
+* chmod +x articles unread* openarticle markArticle
+* cp articles unread* openarticle markArticle /usr/local/bin
+
+
+### Next Steps
 
 Very rough state. Next things to fix:
 * An install script / makefile
-* A single place to set the root directory for the articles
 * Add screenshots in Readme
 * Nice full explanation including file and folder naming conventions.
 
